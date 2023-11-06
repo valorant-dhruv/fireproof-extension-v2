@@ -52,14 +52,40 @@
   </head>
   <body>
     <h3>Fireproof Databases</h3>
-    <table id="databaseTable">
-      <thead>
-        <tr>
-          <th>Database Names</th>
-        </tr>
-      </thead>
-      <tbody id="table-body"></tbody>
-    </table>
+    <div style="width: 100%">
+      <div style="width: 30%; float: left">
+        <table id="databaseTable">
+          <thead>
+            <tr>
+              <th>Database Names</th>
+            </tr>
+          </thead>
+          <tbody id="table-body"></tbody>
+        </table>
+      </div>
+
+      <div style="width: 70%; float: left">
+        <table id="databaseTable">
+          <thead>
+            <tr>
+              <th>Key</th>
+              <th>Values</th>
+            </tr>
+          </thead>
+
+          <tbody id="table-body-docs">
+            <tr>
+              <td>Key-1</td>
+              <td>Value-1</td>
+            </tr>
+            <tr>
+              <td>Key-2</td>
+              <td>Value-2</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
     <script src="./devtools.js"></script>
   </body>
 </html>

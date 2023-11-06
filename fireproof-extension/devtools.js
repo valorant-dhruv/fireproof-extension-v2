@@ -1,5 +1,5 @@
 chrome.devtools.panels.create(
-  "Fireproof Databases",
+  "Fireproof",
   "../images/fireproof_img.png",
   "./popup.html",
   function (panel) {

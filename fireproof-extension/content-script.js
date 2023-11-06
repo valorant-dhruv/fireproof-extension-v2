@@ -20,3 +20,10 @@ Object.keys(localStorage).forEach(function (key) {
   // do something with response here, not outside the function
   console.log(response);
 })();
+
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+  console.log(
+    "This is the click event data received from the service worker",
+    request.data
+  );
+});
