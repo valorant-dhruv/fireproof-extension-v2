@@ -1,6 +1,6 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import "./App.css";
-import { useFireproof } from "use-fireproof";
+import { fireproof, useFireproof } from "use-fireproof";
 
 function App() {
   const [dbname, setdbname] = useState("default");
@@ -10,7 +10,6 @@ function App() {
   const { database, useDocument } = useFireproof(dbname);
 
   //So the thing is the value of the todos is not changing when the name of the database changes
- 
 
   const [todo, setTodo, saveTodo] = useDocument({
     text: "",
@@ -25,6 +24,23 @@ function App() {
     const data = await database.query("text");
     settododata(data.rows);
   }
+
+  useEffect(() => {
+    async function responsefn(event) {
+      //Now that we have received the event from the content script for now we simply just print the event
+      //Now we query the database to access the information
+      if (event.data.for == "react") {
+        let database = fireproof(event.data.value);
+        let documents = await database.query("text");
+        console.log("These are the documents inside the database", documents);
+
+        //Now that we have got the documents inside the database the next step is to push this into the content script
+        window.postMessage(documents, window.location.href);
+      }
+    }
+    window.addEventListener("message", responsefn);
+    return () => window.removeEventListener("message", responsefn);
+  });
 
   return (
     <>

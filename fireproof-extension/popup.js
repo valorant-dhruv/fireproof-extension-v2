@@ -1,5 +1,6 @@
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   var tbody = document.querySelector("#table-body");
+  var tbody2 = document.querySelector("#table-body-docs");
 
   if (message.for == "extension") {
     if (message.data.length != 0) {
@@ -21,13 +22,31 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 
       addlisteners(message.data);
       sendResponse("Ok so the popup.js has functioned properly");
-    } else {
-      //Inside this give a message that the current application has no databases provisioned through fireproof
-      var newRow = document.createElement("tr");
-      var newCell = document.createElement("td");
-      newCell.textContent = "No databases present";
-      newRow.appendChild(newCell);
-      tbody.appendChild(newRow);
+    }
+  } else {
+    if (message.data.length != 0) {
+      //Perform the DOM manipulation
+      console.log(
+        "These are the documents received in popup.js from service worker",
+        message.data
+      );
+      tbody2.innerHTML = "";
+
+      //Loop through the received data from the background.js
+      message.data.forEach(function (doc) {
+        var newRow = document.createElement("tr");
+        var newCell = document.createElement("td");
+        var newCell2 = document.createElement("td");
+        console.log(doc);
+        newCell.textContent = doc.doc._id;
+        newCell2.textContent = JSON.stringify(doc.doc);
+        newRow.appendChild(newCell);
+        newRow.appendChild(newCell2);
+        tbody2.appendChild(newRow);
+      });
+
+      // addlisteners(message.data);
+      // sendResponse("Ok so the popup.js has functioned properly");
     }
   }
 });
@@ -39,7 +58,6 @@ function addlisteners(globaldata) {
     //Now fetch the table rows which match the id
     let row = document.querySelector(`#${element}`);
     row.addEventListener("click", async (e) => {
-      alert(`Ok so the row ${e.srcElement.innerHTML} has been clicked`);
       await chrome.runtime.sendMessage({
         data: e.srcElement.innerHTML,
         to: "background",
