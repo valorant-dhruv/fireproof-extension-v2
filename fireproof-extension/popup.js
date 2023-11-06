@@ -38,15 +38,15 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
         var newCell = document.createElement("td");
         var newCell2 = document.createElement("td");
         console.log(doc);
-        newCell.textContent = doc.doc._id;
-        newCell2.textContent = JSON.stringify(doc.doc);
+        newCell.textContent = doc.key;
+        newCell2.textContent = JSON.stringify(doc.value);
         newRow.appendChild(newCell);
         newRow.appendChild(newCell2);
         tbody2.appendChild(newRow);
       });
 
-      // addlisteners(message.data);
-      // sendResponse("Ok so the popup.js has functioned properly");
+      addlisteners(message.data);
+      sendResponse("Ok so the popup.js has functioned properly");
     }
   }
 });

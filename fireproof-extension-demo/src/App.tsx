@@ -25,23 +25,6 @@ function App() {
     settododata(data.rows);
   }
 
-  useEffect(() => {
-    async function responsefn(event) {
-      //Now that we have received the event from the content script for now we simply just print the event
-      //Now we query the database to access the information
-      if (event.data.for == "react") {
-        let database = fireproof(event.data.value);
-        let documents = await database.query("text");
-        console.log("These are the documents inside the database", documents);
-
-        //Now that we have got the documents inside the database the next step is to push this into the content script
-        window.postMessage(documents, window.location.href);
-      }
-    }
-    window.addEventListener("message", responsefn);
-    return () => window.removeEventListener("message", responsefn);
-  });
-
   return (
     <>
       <h1>Todo List</h1>

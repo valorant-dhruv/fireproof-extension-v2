@@ -1,3 +1,5 @@
+import { fireproof } from "use-fireproof";
+
 console.log("Content script has been injected into this page.");
 
 let arr = [];
@@ -17,10 +19,6 @@ Object.keys(localStorage).forEach(function (key) {
 //This is an IIFE async function
 (async () => {
   console.log("This is the array of database names", arr);
-  // let result = fireproof("default");
-  // console.log("This is the result from fireproof", result);
-  // let queryresult = await result.allDocs();
-  // console.log("The query result", queryresult);
   const response = await chrome.runtime.sendMessage(arr);
   // do something with response here, not outside the function
   console.log(response);
@@ -34,27 +32,36 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
   //Now that we have received the database name which is clicked, the next step is to query that database
   //How do we query the database with the help of content scripts?
+  async function querydatabase() {
+    let result = fireproof(request.data);
+    console.log("This is the result from fireproof", result);
+    let queryresult = await result.allDocs();
+    console.log("The query result", queryresult);
+    const finalresult = { data: queryresult.rows, type: "document" };
+    const response = await chrome.runtime.sendMessage(finalresult);
+  }
 
-  var url = window.location.href;
-  console.log("This is the url on which the application is running", url);
+  querydatabase();
+  // var url = window.location.href;
+  // console.log("This is the url on which the application is running", url);
 
-  let data = { value: request.data, for: "react" };
+  // let data = { value: request.data, for: "react" };
 
-  //Now we post a message to the application
-  window.postMessage(data, url);
+  // //Now we post a message to the application
+  // window.postMessage(data, url);
 });
 
-async function fncalled(event) {
-  if (event.data.for !== "react") {
-    console.log(
-      "Ok so the content script got the data back from the react component",
-      event.data
-    );
+// async function fncalled(event) {
+//   if (event.data.for !== "react") {
+//     console.log(
+//       "Ok so the content script got the data back from the react component",
+//       event.data
+//     );
 
-    const result = { data: event.data.rows, type: "document" };
-    //Now that we have the data back from the react component regarding the documents
-    const response = await chrome.runtime.sendMessage(result);
-  }
-}
+//     const result = { data: event.data.rows, type: "document" };
+//     //Now that we have the data back from the react component regarding the documents
+//     const response = await chrome.runtime.sendMessage(result);
+//   }
+// }
 
-window.addEventListener("message", fncalled);
+// window.addEventListener("message", fncalled);
