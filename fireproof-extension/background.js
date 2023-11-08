@@ -6,7 +6,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     if (request.type == "document") {
       console.log(
         "Ok so the service worker receives the document data from the content script",
-        request.data
+        request
       );
 
       //Now that the documents are with background.js we send it to the popup
@@ -43,3 +43,6 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     })();
   }
 });
+
+//Does this function instantly run inside the content script?
+

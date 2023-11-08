@@ -1,0 +1,10 @@
+#databaseNamesList {
+  list-style: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+#toggleDatabaseNames {
+  cursor: pointer;
+}
+

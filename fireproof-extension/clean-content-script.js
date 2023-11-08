@@ -28,7 +28,11 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     console.log("This is the result from fireproof", result);
     let queryresult = await result.allDocs();
     console.log("The query result", queryresult);
-    const finalresult = { data: queryresult.rows, type: "document" };
+    const finalresult = {
+      data: queryresult.rows,
+      type: "document",
+      databasename: request.data,
+    };
     const response = await chrome.runtime.sendMessage(finalresult);
   }
 
