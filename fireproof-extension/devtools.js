@@ -14,3 +14,5 @@ chrome.devtools.panels.create(
     });
   }
 );
+
+// JSON.stringify(data,null,2);

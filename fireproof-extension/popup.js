@@ -2,7 +2,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   // var tbody = document.querySelector("#table-body");
   var tbody = document.querySelector(".dropdown-content");
   var tbody2 = document.querySelector("#table-body-docs");
-  var name = document.querySelector("#database-name");
+  var name = document.querySelector("#title");
 
   if (message.for == "extension") {
     if (message.data.length != 0) {
@@ -20,7 +20,8 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
         // newCell.textContent = databaseName;
         // newRow.appendChild(newCell);
         // tbody.appendChild(newRow);
-        var newdatabase = document.createElement("a");
+        // var newdatabase = document.createElement("a");
+        var newdatabase = document.createElement("h4");
         newdatabase.id = databaseName;
         newdatabase.textContent = databaseName;
         newdatabase.focus = "hover";
@@ -47,7 +48,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
       originalcell.textContent = "_id";
       originalcell2.textContent = "doc";
       originalrow.appendChild(originalcell);
-      originalrow.appendChild(originalcell2);
+      // originalrow.appendChild(originalcell2);
       tbody2.appendChild(originalrow);
 
       let keys = [];
@@ -65,9 +66,9 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
         newCell.id = `ok-${count}`;
         count++;
         newCell2.textContent = JSON.stringify(doc.value);
-        values.push(JSON.stringify(doc.value));
+        values.push(JSON.stringify(doc.value, null, 2));
         newRow.appendChild(newCell);
-        newRow.appendChild(newCell2);
+        // newRow.appendChild(newCell2);
         tbody2.appendChild(newRow);
       });
 
